@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1571595818 source:d:\cpp\cpp_stepik\real\real\main.cpp
+	<iostream>
+	<cmath>
+	<iomanip>
+

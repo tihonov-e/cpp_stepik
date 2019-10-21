@@ -399,20 +399,25 @@ int main()
     double a, b, c;
     double D, x1, x2;
     const double ZERO = 1e-10; //для сравнения с 0
+                                //ZERO нужен, чтобы решить проблемы с точностью вычислений
+                                //иногда 0 не ноль, а очень малое число
 
     cout << setprecision(6) << fixed;   //вывод чисел фиксированной точностью в 6 знаков после запятой
     cin >> a >> b >> c;
 
-    if (a < ZERO {
-            if (b < ZERO) {
-                if (c < ZERO) {       //x = any numbers: 0*x^2 + 0*b + 0*c = 0
+    if (fabs(a) < ZERO) {               //a == 0 -> x1 = (- c) / b
+            if (fabs(b) < ZERO) {       //a == 0 && b == 0 -> нет решений
+                if (fabs(c) < ZERO) {   //a == b == c == 0 -> x = any numbers: 0*x^2 + 0*b + 0*c = 0
+
                     cout << 3;      //выводим 3 по условию задачи
                     return 0;
                 }
                 cout << 0;          //решений нет: 0*x^2 + 0*x + c = 0
                 return 0;
             }
-            cout << 1 << " " << (- c) / b;        //0*x^2 + b*x + c = 0
+            x1 = (- c) / b;         //если только a == 0
+            cout << 1 << " " << ((fabs(x1) < ZERO) ? 0.0f : x1) ;        //0*x^2 + b*x + c = 0
+                                                                        //(a < b) ? toDo 1 : toDo 2 - тернарный оператор
             return 0;
 
     }   //enf if
@@ -424,12 +429,12 @@ int main()
             return 0;        //решений нет, выходим
     }
 
-    if (D == 0) {                // при D=0 корень один
+    if (fabs(D) < ZERO) {                // при D=0 корень один
             x1 = - b / (2 * a);
             cout << 1 << " " << x1;
-    } else {                    // при D>0 корней два
+    } else if (D > 0) {                    // при D>0 корней два
 
-        x1 = (- b + sqrt(b * b - 4 * a * c)) / (2 * a);
+        x1 = (- b + sqrt(b * b - 4 * a * c)) / (2 * a); //вычисляем корни уравнения
         x2 = (- b - sqrt(b * b - 4 * a * c)) / (2 * a);
 
         if (x1 <= x2) cout << 2 << " " << x1 << " " << x2;

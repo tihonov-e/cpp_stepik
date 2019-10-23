@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1571808158 source:d:\cpp\cpp_stepik\real\real\main.cpp
+1571849008 source:d:\cpp\cpp_stepik\real\real\main.cpp
 	<iostream>
 	<cmath>
 	<iomanip>
 	<bitset>
+	<stdlib.h>
 
 1571778197 source:d:\cpp\stepik\real\real\main.cpp
 	<iostream>

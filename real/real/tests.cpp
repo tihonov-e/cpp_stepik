@@ -9,80 +9,6 @@
 
 using namespace std;
 
-//функция решения системы линейных уравнений
-void function1 (double a, double b, double c, double d, double e, double f)
-{
-
-    //double a, b, c, d, e, f;
-    double x, y;
-    double de, dx, dy; //определители матриц Крамера
-    const double ZERO = 1e-10; //для сравнения с 0
-                                //ZERO нужен, чтобы решить проблемы с точностью вычислений
-
-    //cin >> a >> b >> c >> d >> e >> f;
-    //cout << setprecision (2) << fixed; //задаем точность вывода данных
-    cout << a << " " << b << " " << c << " " << d << " " << e << " " << f << endl;
-    // найдем определитель основной матрицы
-    //[a b]
-    //[c d]
-
-    de = a * d - b * c;
-
-    //найдем определители доп. матриц
-
-//    dx = |e b|  dy = |a e|
-//         |f d|       |c f|
-
-    dx = e * d - b * f;
-    dy = a * f - e * c;
-
-
-// дальше проверяем 6 условий
-
-//1. D == 0 && (Dx != 0 || Dy != 0) => cout << 0 // решений нет
-
-    if ( fabs(de) < ZERO && (fabs(dx) > ZERO || fabs(dy) > ZERO) ) cout << 0;
-    else
-
-
-//6. D == 0 && Dx == Dy == 0 && (a == b == c == d == 0) => cout << 5  //бесконечно решений, (x,y) любые
-
-    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(b) < ZERO && fabs(c) < ZERO && fabs(d) < ZERO) ) cout << 5;
-    else
-
-
-//2. D == 0 && Dx == Dy == 0 && ((a != 0 && b != 0) || (c != 0 && d != 0)) => cout << 1 << k << n //бесконечно решений y = kx + n
-
-    if ( fabs(de) < ZERO && (fabs(dx) < ZERO && fabs(dy) < ZERO) && ((fabs(a) > ZERO && fabs(b) > ZERO) || (fabs(c) > ZERO && fabs(d) > ZERO) )) {
-            double k = 0, n = 0; //коэфф. из условия задания
-
-            k = (fabs(a) > ZERO && fabs(b) > ZERO) ? (- a / b) : (-d / c);  // если a и b != 0, то k = -a / b, иначе k = -d
-            n = (fabs(a) > ZERO && fabs(b) > ZERO) ? (e / b) : (f / d);     // если a и b != 0, то n = e / b, иначе n = f / d
-
-            cout << 1 << " " << k << " " << n;
-    } else
-
-//3. D != 0 => cout << 2 << x << y // есть одно единственное решение
-
-    if (fabs(de) > ZERO) cout << 2 << " " << dx / de << " " << dy / de;
-    else
-
-//4. D == 0 && Dx == Dy == 0 && (b == d == 0 && a != 0 && c != 0) => cout << 3 << x = e / a //бесконечно решений x = x0
-
-    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(b) < ZERO && fabs(d) < ZERO ))
-        cout << 3 << " " << ((fabs(c) < ZERO) ? e / a : f / c);
-    else
-
-//5. D == 0 && Dx == Dy == 0 && (a == c == 0 && b != 0 && d != 0) => cout << 4 << y = e / b //бесконечно решений y = y0
-
-    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(c) < ZERO) )
-        cout << 4 << " " << ((fabs(d) < ZERO) ? e / b : f / d);
-    else cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " NO output!!!";
-
-    cout << '\n' << '\n';
-}
-
-
 int main()
 {
 
@@ -588,6 +514,11 @@ int main()
 //}
 
 
+
+
+
+
+
 //Даны вещественные числа a, b, c, d, e, f. Решите систему линейных уравнений
 //  ax + by = e
 //  cx + dy = f
@@ -621,25 +552,138 @@ int main()
 //5. D == 0 && Dx == Dy == 0 && (a == c == 0 && b != 0 && d != 0) => cout << 4 << y = e / b //бесконечно решений y = y0
 //6. D == 0 && Dx == Dy == 0 && (a == b == c == d == 0) => cout << 5  //бесконечно решений, (x,y) любые
 
-    function1 (1,0,0,1,3,3);
-    function1 (1,1,2,2,1,2);
-    function1 (0,2,0,4,1,2);
-    function1 (2,3,4,6,1,2);
-    function1 (0,1,0,3,5,15);
-    function1 (1,0,1,0,3,3);
-    function1 (0,1,0,2,1,1);
-    function1 (0,0,0,0,0,1);
-    function1 (0,0,0,0,1,0);
-    function1 (0,0,0,0,0,0);
-    function1 (0,1,0,-1,0,0);
-    function1 (1,-1,0,-1,1,0);
-    function1 (0,0,1,2,0,3);
-    function1 (0,0,1,-2,0,1);
-    function1 (1,-2,0,0,1,0);
-    function1 (0,0,0,1,0,1);
+    double a, b, c, d, e, f;
+    double x, y;
+    double de, dx, dy; //определители матриц Крамера
+    const double ZERO = 1e-10; //для сравнения с 0
+                                //ZERO нужен, чтобы решить проблемы с точностью вычислений
+//    справка по ZERO
+//    fabs(x) < ZERO <-> x == 0
+//    fabs(x) > ZERO <-> x != 0
+
+    int x2 = 32;  //входные данные для теста
+
+//    std::bitset<8> bits(x2);
+//    cout << x2;
+//    std::cout << "bit_" << i << " = " << bits.test(i);
+
+    //--тестирование--
+
+    for (int i = 0; i <= x2; i++) {
+
+    std::bitset<8> bits(i);
+
+    a = (double) (rand()%100)+1;
+    b = (double) (rand()%100)+1;
+    c = (double) (rand()%100)+1;
+    d = (double) (rand()%100)+1;
+    e = (double) (rand()%100)+1;
+    f = (double) (rand()%100)+1;
+
+    cout << setprecision (2) << fixed; //задаем точность вывода данных
+
+    cout << "--------------------" << endl;
+    cout << "i = " << i << endl;
+    cout << "all the bits " << bits << endl;
+    cout << a <<  "*x + " << b << "*y = " << e << endl;
+    cout << c <<  "*x + " << d << "*y = " << f << endl;
+
+    //cin >> a >> b >> c >> d >> e >> f;
+
+    // найдем определитель основной матрицы
+    //[a b]
+    //[c d]
+
+    de = a * d - b * c;
+
+    //найдем определители доп. матриц
+
+//    dx = |e b|  dy = |a e|
+//         |f d|       |c f|
+
+    dx = e * d - b * f;
+    dy = a * f - e * c;
+
+// дальше проверяем 6 условий
+
+//1. D == 0 && (Dx != 0 || Dy != 0) => cout << 0 // решений нет
+
+    if ( fabs(de) < ZERO && (fabs(dx) > ZERO || fabs(dy) > ZERO) ) {cout << "D = " << de << " Dx = "
+        << dx << " Dy = " << dy << " --output: "; cout << 0;
+    } else
 
 
+//6. D == 0 && Dx == Dy == 0 && (a == b == c == d == 0) => cout << 5  //бесконечно решений, (x,y) любые
 
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(b) < ZERO && fabs(c) < ZERO && fabs(d) < ZERO) ) {
+        cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " --output: ";
+        cout << 5;
+//        return 0;
+    } else
+
+
+//2. D == 0 && Dx == Dy == 0 && ((a != 0 && b != 0) || (c != 0 && d != 0)) => cout << 1 << k << n //бесконечно решений y = kx + n
+
+    if ( fabs(de) < ZERO && (fabs(dx) < ZERO && fabs(dy) < ZERO) && ((fabs(a) > ZERO && fabs(b) > ZERO) || (fabs(c) > ZERO && fabs(d) > ZERO) )) {
+            double k = 0, n = 0; //коэфф. из условия задания
+
+            k = (fabs(a) > ZERO && fabs(b) > ZERO) ? (- a / b) : (-d / c);  // если a и b != 0, то k = -a / b, иначе k = -d
+            n = (fabs(a) > ZERO && fabs(b) > ZERO) ? (e / b) : (f / d);     // если a и b != 0, то n = e / b, иначе n = f / d
+
+            cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " --output: ";
+            cout << 1 << " " << k << " " << n << endl;
+            //проверка решения
+            x = (double) rand();
+            y = k * x + n;
+            if ((a * x + b * y) == e && (c * x + d * y) == f) cout << "OK!" << endl;
+//            return 0;
+    } else
+
+//3. D != 0 => cout << 2 << x << y // есть одно единственное решение
+
+    if (fabs(de) > ZERO) {
+
+        x = dx / de;    //находим корни
+        y = dy / de;
+
+        cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " --output: ";
+        cout << 2 << " " << x << " " << y << endl;
+        //проверка решения
+        if ((a * x + b * y) == e && (c * x + d * y) == f) cout << "OK!" << endl;
+
+//        return 0;
+    } else
+
+//4. D == 0 && Dx == Dy == 0 && (b == d == 0 && a != 0 && c != 0) => cout << 3 << x = e / a //бесконечно решений x = x0
+
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(b) < ZERO && fabs(d) < ZERO )) {
+
+        cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " --output: ";
+        cout << 3 << " " << ((fabs(c) < ZERO) ? e / a : f / c) << endl;
+        //проверка решения
+        x = (fabs(c) < ZERO) ? e / a : f / c;
+        y = (double) rand();
+        if ((a * x + b * y) == e && (c * x + d * y) == f) cout << "OK!" << endl;
+
+//        return 0;
+    } else
+
+//5. D == 0 && Dx == Dy == 0 && (a == c == 0 && b != 0 && d != 0) => cout << 4 << y = e / b //бесконечно решений y = y0
+
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(c) < ZERO) ) {
+        cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " --output: ";
+        cout << 4 << " " << ((fabs(d) < ZERO) ? e / b : f / d) << endl;
+        //проверка решения
+        y = (fabs(d) < ZERO) ? e / b : f / d;
+        x = (double) rand();
+        if ((a * x + b * y) == e && (c * x + d * y) == f) cout << "OK!" << endl;
+
+
+//        return 0;
+    } else cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " NO output!!!";
+
+cout << '\n';
+}   //--end of test
 
     return 0;
 }

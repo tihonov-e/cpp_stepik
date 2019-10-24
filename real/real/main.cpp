@@ -20,7 +20,7 @@ void function1 (double a, double b, double c, double d, double e, double f)
                                 //ZERO нужен, чтобы решить проблемы с точностью вычислений
 
     //cin >> a >> b >> c >> d >> e >> f;
-    cout << setprecision (2) << fixed; //задаем точность вывода данных
+    cout << setprecision (6) << fixed; //задаем точность вывода данных
 
     cout << a << " " << b << " " << c << " " << d << " " << e << " " << f << endl;
 
@@ -45,9 +45,9 @@ void function1 (double a, double b, double c, double d, double e, double f)
 // D != 0 => cout << 2 << x << y // есть одно единственное решение
 
     if (fabs(de) > ZERO) {
-        (dx / de) < ZERO ? x = 0 : x = dx / de;     //если x == 0 - > x = 0, иначе x = dx/de
+        fabs((dx / de)) < ZERO ? x = 0 : x = dx / de;     //если x == 0 - > x = 0, иначе x = dx/de
                                                     //для исключения вывода "-0"
-        (dy / de) < ZERO ? y = 0 : y = dy / de;
+        fabs((dy / de)) < ZERO ? y = 0 : y = dy / de;
 
         cout << 2 << " " << x << " " << y;          //2 << x << y
     }
@@ -646,22 +646,24 @@ int main()
 //5. D == 0 && Dx == Dy == 0 && (a == c == 0 && b != 0 && d != 0) => cout << 4 << y = e / b //бесконечно решений y = y0
 //6. D == 0 && Dx == Dy == 0 && (a == b == c == d == 0) => cout << 5  //бесконечно решений, (x,y) любые
 
-    function1 (1,0,0,1,3,3);
-    function1 (1,1,2,2,1,2);
-    function1 (0,2,0,4,1,2);
-    function1 (2,3,4,6,1,2);
-    function1 (0,1,0,3,5,15);
-    function1 (1,0,1,0,3,3);
-    function1 (0,1,0,2,1,1);
-    function1 (0,0,0,0,0,1);
-    function1 (0,0,0,0,1,0);
-    function1 (0,0,0,0,0,0);
-    function1 (0,1,0,-1,0,0);
-    function1 (1,-1,0,-1,1,0);
-    function1 (0,0,1,2,0,3);
-    function1 (0,0,1,-2,0,1);
-    function1 (1,-2,0,0,1,0);
-    function1 (0,0,0,1,0,1);
+//    function1 (1,0,0,1,3,3);
+//    function1 (1,1,2,2,1,2);
+//    function1 (0,2,0,4,1,2);
+//    function1 (2,3,4,6,1,2);
+//    function1 (0,1,0,3,5,15);
+//    function1 (1,0,1,0,3,3);
+//    function1 (0,1,0,2,1,1);
+//    function1 (0,0,0,0,0,1);
+//    function1 (0,0,0,0,1,0);
+//    function1 (0,0,0,0,0,0);
+//    function1 (0,1,0,-1,0,0);
+//    function1 (1,-1,0,-1,1,0);
+//    function1 (0,0,1,2,0,3);
+//    function1 (0,0,1,-2,0,1);
+//    function1 (1,-2,0,0,1,0);
+//    function1 (0,0,0,1,0,1);
+
+    function1 (1,2,3,4,-1,-1);
 
 
 

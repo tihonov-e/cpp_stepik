@@ -6,8 +6,10 @@
 	<bitset>
 	<stdlib.h>
 
-1571778197 source:d:\cpp\stepik\real\real\main.cpp
+1571862807 source:d:\cpp\stepik\real\real\main.cpp
 	<iostream>
 	<cmath>
 	<iomanip>
+	<bitset>
+	<stdlib.h>
 

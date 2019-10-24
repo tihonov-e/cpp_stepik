@@ -39,15 +39,22 @@ void function1 (double a, double b, double c, double d, double e, double f)
 
 // дальше проверяем 6 условий
 
-//1. D == 0 && (Dx != 0 || Dy != 0) => cout << 0 // решений нет
+//1.1 D == 0 && (Dx != 0 || Dy != 0) => cout << 0 // решений нет
 
     if ( fabs(de) < ZERO && (fabs(dx) > ZERO || fabs(dy) > ZERO) ) cout << 0;
     else
 
+//1.2 D == 0 && Dx == 0 && Dy == 0 && (a == b == c == d ==0 && (e!=0 || f !=0)) => cout << 0 // решений тоже нет
 
-//6. D == 0 && Dx == Dy == 0 && (a == b == c == d == 0) => cout << 5  //бесконечно решений, (x,y) любые
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(b) < ZERO && fabs(c) < ZERO && fabs(d) < ZERO)
+        && (fabs(e) > ZERO || fabs(f) > ZERO)) cout << 0;
+    else
 
-    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(b) < ZERO && fabs(c) < ZERO && fabs(d) < ZERO) ) cout << 5;
+
+//6. D == 0 && Dx == Dy == 0 && (a == b == c == d == e == f == 0) => cout << 5  //бесконечно решений, (x,y) любые
+
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(b) < ZERO && fabs(c) < ZERO && fabs(d) < ZERO
+                                                                   && fabs(e)< ZERO && fabs(f) < ZERO) ) cout << 5;
     else
 
 
@@ -56,7 +63,7 @@ void function1 (double a, double b, double c, double d, double e, double f)
     if ( fabs(de) < ZERO && (fabs(dx) < ZERO && fabs(dy) < ZERO) && ((fabs(a) > ZERO && fabs(b) > ZERO) || (fabs(c) > ZERO && fabs(d) > ZERO) )) {
             double k = 0, n = 0; //коэфф. из условия задания
 
-            k = (fabs(a) > ZERO && fabs(b) > ZERO) ? (- a / b) : (-d / c);  // если a и b != 0, то k = -a / b, иначе k = -d
+            k = (fabs(a) > ZERO && fabs(b) > ZERO) ? (- a / b) : (-c / d);  // если a и b != 0, то k = -a / b, иначе k = -d
             n = (fabs(a) > ZERO && fabs(b) > ZERO) ? (e / b) : (f / d);     // если a и b != 0, то n = e / b, иначе n = f / d
 
             cout << 1 << " " << k << " " << n;
@@ -64,20 +71,44 @@ void function1 (double a, double b, double c, double d, double e, double f)
 
 //3. D != 0 => cout << 2 << x << y // есть одно единственное решение
 
-    if (fabs(de) > ZERO) cout << 2 << " " << dx / de << " " << dy / de;
+    if (fabs(de) > ZERO) {
+        (dx / de) < ZERO ? x = 0 : x = dx / de;     //если x == 0 - > x = 0, иначе x = dx/de
+                                                    //для исключения вывода "-0"
+        (dy / de) < ZERO ? y = 0 : y = dy / de;
+
+        cout << 2 << " " << x << " " << y;
+    }
     else
+
+
 
 //4. D == 0 && Dx == Dy == 0 && (b == d == 0 && a != 0 && c != 0) => cout << 3 << x = e / a //бесконечно решений x = x0
 
-    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(b) < ZERO && fabs(d) < ZERO ))
-        cout << 3 << " " << ((fabs(c) < ZERO) ? e / a : f / c);
-    else
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(b) < ZERO && fabs(d) < ZERO )) {
+
+
+        x = ((fabs(c) < ZERO) ? e / a : f / c);     //бесконечное решение x = x0
+        if (fabs(x) < ZERO)  x = 0;                       //для исключения вывода "-0"
+
+        cout << 3 << " " << x;
+    } else
+
+
 
 //5. D == 0 && Dx == Dy == 0 && (a == c == 0 && b != 0 && d != 0) => cout << 4 << y = e / b //бесконечно решений y = y0
 
-    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(c) < ZERO) )
-        cout << 4 << " " << ((fabs(d) < ZERO) ? e / b : f / d);
-    else cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " NO output!!!";
+    if ( fabs(de) < ZERO && fabs(dx) < ZERO && fabs(dy) < ZERO && (fabs(a) < ZERO && fabs(c) < ZERO) ) {
+
+
+
+
+        y = ((fabs(d) < ZERO) ? e / b : f / d);         //бесконечное решение y = y0
+        if (fabs(y) < ZERO)  y = 0;                       //для исключения вывода "-0"
+
+        cout << 4 << " " << y;
+
+
+    } else cout << "D = " << de << " Dx = " << dx << " Dy = " << dy << " NO output!!!";
 
     cout << '\n' << '\n';
 }

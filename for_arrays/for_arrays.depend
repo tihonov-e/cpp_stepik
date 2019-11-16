@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1572416289 source:d:\cpp\cpp_stepik\for_arrays\main.cpp
+	<iostream>
+	<vector>
+

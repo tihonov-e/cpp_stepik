@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1579541564 source:d:\cpp\stepik\2d_arrays\2d_arrays\main.cpp
+	<iostream>
+	<cstdlib>
+	<vector>
+	<climits>
+

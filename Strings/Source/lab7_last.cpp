@@ -33,8 +33,8 @@ int main()
 {	
 
 	string s = "String";
-	size_t int_count = 0;
-	int i_int = 0;
+	size_t num_digit = 0;
+	int num = 0;
 
 	/**
 	Exception list for stoi():
@@ -42,22 +42,52 @@ int main()
 	catch (std::out_of_range&)
 	*/
 	
-	try
-	{
-		i_int = stoi(s);
-	}
-	catch (invalid_argument&)
-	{
-		cerr << "Error: invalid_argument" << endl;
+	//lenght of string must be between 7 and 15
+	if (s.length() < 7 || s.length() > 15) {
+		cout << "NO";
+		return 0;
 	}
 
+	//string must have 3 x "."
+	//and every byte must be between 0 and 255
+	string s_byte = ""; //current byte
+	int num_dots = 0; //number of dots in the string
+	for (auto c : s) {
+		if (c != '.') { s_byte += c; }
+		else { 
+			num_dots++;
+			
+			//check every byte
+			try {
+				num_dots = stoi(s);
+				if (num_dots < 0 || num_dots > 255) { throw out_of_range(s); }
+				else s_byte = ""; //clear temp string for the next step
+			}
+			catch (...) {
+				cout << "NO";
+				return 0;
+			}
+
+		}
+
+	}
+	
+	try
+	{
+		num = stoi(s, &num_digit);
+
+		if (num_digit != s.length()) { throw invalid_argument(s); }
+		
+
+	}
 	catch (...)
 	{
-		cerr << "Error: some problem" << endl;
+		cout << "NO";
+		return 0;
 	}
 
 	
-	cout << i_int << endl;
+	cout << "YES";
 	
 	return 0;
 

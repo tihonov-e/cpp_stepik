@@ -32,56 +32,89 @@ using namespace std;
 int main()
 {	
 
-	string s = "String";
-	size_t num_digit = 0;
-	int num = 0;
-
-	/**
-	Exception list for stoi():
-	catch (std::invalid_argument&) 	// if no conversion could be performed
-	catch (std::out_of_range&)
-	*/
+	string s = ""; //string for input
 	
+	//count of success string-to-int symbols
+	size_t num_digit = 0; //for exception checking
+
+	
+	getline(cin, s);
+
+	//to help to work with the string
+	s += ".";
+
 	//lenght of string must be between 7 and 15
 	if (s.length() < 7 || s.length() > 15) {
 		cout << "NO";
 		return 0;
 	}
 
-	//string must have 3 x "."
+	//string must have 3x"."
 	//and every byte must be between 0 and 255
 	string s_byte = ""; //current byte
+	int num_byte = 0; //byte counter
 	int num_dots = 0; //number of dots in the string
+	
+	int i = 0; //current position
 	for (auto c : s) {
+		 
 		if (c != '.') { s_byte += c; }
 		else { 
 			num_dots++;
+			//check ".."
+			if (num_dots != 4) { //if we are not in the end
+				if (s[i + 1] == '.') {
+					cout << "NO";
+					return 0;
+				}
+			}
 			
 			//check every byte
 			try {
-				num_dots = stoi(s);
-				if (num_dots < 0 || num_dots > 255) { throw out_of_range(s); }
-				else s_byte = ""; //clear temp string for the next step
+				num_byte = stoi(s_byte, &num_digit);
+				
+				//check value range
+				if (num_byte < 0 || num_byte > 255) { throw out_of_range(s); }
+				
+				//check not integer symbols
+				else if (num_digit != s_byte.length()) { throw invalid_argument(s); }
+				
+				//check case "001"
+				else if (num_byte > 0) {
+					int digits_counter = num_byte; //temp variable
+					int n = 1; //result
+					//finding digits count in the byte
+					while ((digits_counter /= 10) > 0) n++;
+					if (n != s_byte.length()) {
+						cout << "NO";
+						return 0;
+					}
+				}
+
+				//if everything ok
+				s_byte = ""; //clear temp string for the next step
+
+				
 			}
 			catch (...) {
+				/**
+				Exception list for stoi():
+				catch (std::invalid_argument&)
+				catch (std::out_of_range&)
+				*/
 				cout << "NO";
 				return 0;
 			}
 
 		}
 
+		i++;
+
 	}
 	
-	try
-	{
-		num = stoi(s, &num_digit);
-
-		if (num_digit != s.length()) { throw invalid_argument(s); }
-		
-
-	}
-	catch (...)
-	{
+	//check dots count
+	//4 - because we have added extra dot later
+	if (num_dots != 4) {
 		cout << "NO";
 		return 0;
 	}
@@ -93,49 +126,6 @@ int main()
 
 }
 
-//удалить этот блок
-/**	string s = ""; //main string
-	string max_word = ""; //result
-	string temp_word = ""; //temp string for finding a max word
-	getline (cin, s); //entering the string from keyboard
-
-	//add space in the string s end
-	//for checking the last word too
-	s += " ";
-
-	size_t find_first_space = s.find(" "); // first space for starting finding
-
-	//save the first word to max_word. It's maximum word by default
-	for (int i = 0; i < find_first_space; i++) {
-		max_word += s[i];
-	}
-
-	//here we save space position after the next word
-	size_t find_next_space = s.find(" ", find_first_space + 1);
-
-	//stop while cycle when reach the end of the string
-	while (find_next_space != string::npos) {
-
-		//go between two space positions: before and after the current word
-		//and save letters to temp_word
-		for (int i = (int) (find_first_space + 1); i < find_next_space; i++) {
-			temp_word += s[i];
-		}
-
-		//check if the current word is bigger the max_word
-		if (temp_word.size() > max_word.size()) max_word = temp_word;
-		//reset temp_word for the next "for" cycle
-		temp_word = "";
-
-		//shift find_first_space to the right after the current word
-		find_first_space = find_next_space;
-		//shift the start point for finding the next space
-		find_next_space = s.find(" ", find_next_space + 1);
-
-	}
-
-	cout << max_word; //print the result
-*/
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

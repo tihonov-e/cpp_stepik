@@ -5,15 +5,48 @@
 
 #include <iostream>
 #include <string>
+#include <set>
 
 using namespace std;
 
 int main()
 {	
-
+	set <int> s;
+	int n = 0; //число запросов
 	
-	return 0;
+	/**
+	1 - добавить элемент множества
+	2 - проверка наличия элемента в множестве
+	3 - удалить элемент
+	*/
+	int type = 1; //тип запроса
+	int x = 0; //число в запросе
 
+	cout << "Input command format: command type value\n";
+	cout << "command type: 1- add; 2 - check; 3 - delete; 0 - exit\n";
+	cout << "Enter command:\n";
+
+	while (type != 0)
+	{		
+		cin >> type >> x;
+
+		if (type == 1) {
+			s.insert(x);
+			
+			for (auto now : s) {
+				cout << now << " ";
+			}		
+		}
+
+		else if (type == 2) {
+			if (s.find(x) != );
+		}
+
+		
+		cout << "\n";
+	}
+
+	return 0;
 }
 
 

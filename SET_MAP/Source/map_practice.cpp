@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {	
-	set <int> s;
+	multiset <int> s;
 	int n = 0; //число запросов
 	
 	/**
@@ -22,26 +22,63 @@ int main()
 	int type = 1; //тип запроса
 	int x = 0; //число в запросе
 
-	cout << "Input command format: command type value\n";
-	cout << "command type: 1- add; 2 - check; 3 - delete; 0 - exit\n";
+	cout << "input n = "; cin >> n;
+	cout << "input " << n << " members: ";
+	
+	for (int i = 0; i < n; i++) {
+		cin >> x;
+		s.insert(x);
+	}
+
+	//print set s
+	for (auto now : s) {
+		cout << now << " ";
+	}
+
+	cout << "\n";
+	
+	cout << "command type: 1- add x; 2 - check x; 3 - delete x\n";  
+	cout << "4 - print all; 5 - check size; 6 - count x  0 - exit\n";
 	cout << "Enter command:\n";
 
 	while (type != 0)
 	{		
-		cin >> type >> x;
+		cin >> type;
 
+		//insert element
 		if (type == 1) {
-			s.insert(x);
-			
+			cin >> x;
+			s.insert(x); cout << x << " added";
+		}
+
+		//check element
+		else if (type == 2) {
+			cin >> x;
+			if (s.find(x) == s.end()) cout << "NO";
+			else cout << "YES";
+		}
+
+		else if (type == 3) {
+			cin >> x;
+			s.erase(x);  cout << x << " deleted";
+		}
+
+		else if (type == 4) {
 			for (auto now : s) {
 				cout << now << " ";
-			}		
+			}
 		}
 
-		else if (type == 2) {
-			if (s.find(x) != );
-		}
+		else if (type == 5) cout << "size = " << s.size();
 
+		else if (type == 6) {
+			cin >> x;
+			int cnt = 0;
+			for (auto now = s.lower_bound(x); now != s.upper_bound(x); now++) {
+				cnt++;
+			}
+			cout << " count" << "(" << x << ") =" << cnt;
+		}
 		
 		cout << "\n";
 	}

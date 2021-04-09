@@ -41,10 +41,11 @@ int main()
 	getline(cin, s);
 
 	//to help to work with the string
-	s += ".";
+	s += '.';
 
-	//lenght of string must be between 7 and 15
-	if (s.length() < 7 || s.length() > 15) {
+	//lenght of string must be between 7 and 16
+	//keep in mind extra '.'
+	if (s.length() < 8 || s.length() > 16) {
 		cout << "NO";
 		return 0;
 	}

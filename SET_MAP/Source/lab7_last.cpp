@@ -132,13 +132,16 @@ int main()
 		getline(cin, sTemp);
 		
 		//making dictionaries
-		while (cin >> sTemp) {
 			//make original dictinary with Capitals
 			dictionaryCapitals.insert(sTemp);
 			//make dictinary without Capitals
-			//...use tolower()
-		}				
+			for (int i = 0; i < sTemp.length(); i++) sTemp[i] = tolower(sTemp[i]);
+			dictinaryNoCapitals.insert(sTemp);				
 	}
+
+	for (auto& now : dictionaryCapitals) cout << now << " "; cout << "\n";
+	for (auto& now : dictinaryNoCapitals) cout << now << " ";
+
 
 //Delete this block
 /**

@@ -119,34 +119,29 @@ using namespace std;
 
 int main()
 {	
-	map <string, vector <string> > map_eng, map_latin;
-	set <string> s_latinword;
-	string word_eng, word_lat, s;
+	set <string> dictionaryCapitals, dictinaryNoCapitals;
 	int N = 0;
 
 	cin >> N;
 	while (N--)
 	{
+		string sTemp;
+		
 		//"ws" to make "getline" ignore '\n'
-		cin >> word_eng >> ws; 
-		getline(cin, s);
+		cin >> sTemp >> ws; 
+		getline(cin, sTemp);
 		
-		//delete "," and "-"
-		for (int i = 0; i < s.length(); i++) {
-			if (s[i] == ',' || s[i] == '-') s.erase(i,1);
-		}
-
-
-		//create object is for the input stream working (>>)
-		istringstream is(s);
-		
-		//make latin map from the string s
-		while (is >> word_lat) {
-			s_latinword.insert(word_lat); //make set for printing the map_latin in a right order
-			map_latin[word_lat].push_back(word_eng);
+		//making dictionaries
+		while (cin >> sTemp) {
+			//make original dictinary with Capitals
+			dictionaryCapitals.insert(sTemp);
+			//make dictinary without Capitals
+			//...use tolower()
 		}				
 	}
 
+//Delete this block
+/**
 	//print result
 	cout << map_latin.size() << endl; //number of latin words
 	for (auto& now_latinword : s_latinword) { //go thru set for a right printing order
@@ -160,6 +155,6 @@ int main()
 		}
 		cout << "\n";
 	}
-	
+*/	
 	return 0;
 }

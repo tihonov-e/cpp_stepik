@@ -119,8 +119,10 @@ using namespace std;
 
 int main()
 {	
-	set <string> dictionaryCapitals, dictinaryNoCapitals, stringForCheck;
+	set <string> dictionaryCapitals, dictinaryNoCapitals;
+	multiset <string> stringForCheck;
 	int N = 0;
+	int cnt = 0; //mistakes counter
 
 	
 	//Work with dictionaries
@@ -144,18 +146,35 @@ int main()
 	//save input string for checking
 
 		string sTemp;
+		string wordForCheck;
+		
 		getline(cin, sTemp);
 
 		//проверить, что строка не пустая
+		if (sTemp.empty()) {
+			cout << 0;
+			return 0;
+		}
 
-		//making set
-		stringForCheck.insert(sTemp);
+		//making set for checking
+		istringstream is(sTemp); //create object is for the input stream working (>>)
+		while (is >> wordForCheck) {
+			stringForCheck.insert(wordForCheck);
+		}
 
-	//check zero input string
-	if (stringForCheck.size() == 0); cout << "0";
+		//check the number of Capital letters in the each word
+		int capitalLetterCnt = 0;
+		for (auto now : stringForCheck) {
+			for (auto c : now) {
+				if (c >= 'A' && c <= 'Z') capitalLetterCnt++;
+			}
+			if (capitalLetterCnt != 1) cnt++;
+			capitalLetterCnt = 0;
+		}
 
 	//print dict
-	//for (auto& now : dictionaryCapitals) cout << now << " "; cout << "\n";
+	for (auto& now : stringForCheck) cout << now << " "; cout << "\n";
+	cout << cnt;
 	//for (auto& now : dictinaryNoCapitals) cout << now << " ";
 
 

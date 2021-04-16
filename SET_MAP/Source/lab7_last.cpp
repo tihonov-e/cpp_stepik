@@ -119,18 +119,20 @@ using namespace std;
 
 int main()
 {	
-	set <string> dictionaryCapitals, dictinaryNoCapitals;
+	set <string> dictionaryCapitals, dictinaryNoCapitals, stringForCheck;
 	int N = 0;
 
+	
+	//Work with dictionaries
 	cin >> N;
+	cin.ignore(); //to make "getline" ignore '\n'
+
 	while (N--)
 	{
 		string sTemp;
-		
-		//"ws" to make "getline" ignore '\n'
-		cin >> sTemp >> ws; 
+
 		getline(cin, sTemp);
-		
+
 		//making dictionaries
 			//make original dictinary with Capitals
 			dictionaryCapitals.insert(sTemp);
@@ -139,8 +141,22 @@ int main()
 			dictinaryNoCapitals.insert(sTemp);				
 	}
 
-	for (auto& now : dictionaryCapitals) cout << now << " "; cout << "\n";
-	for (auto& now : dictinaryNoCapitals) cout << now << " ";
+	//save input string for checking
+
+		string sTemp;
+		getline(cin, sTemp);
+
+		//проверить, что строка не пустая
+
+		//making set
+		stringForCheck.insert(sTemp);
+
+	//check zero input string
+	if (stringForCheck.size() == 0); cout << "0";
+
+	//print dict
+	//for (auto& now : dictionaryCapitals) cout << now << " "; cout << "\n";
+	//for (auto& now : dictinaryNoCapitals) cout << now << " ";
 
 
 //Delete this block

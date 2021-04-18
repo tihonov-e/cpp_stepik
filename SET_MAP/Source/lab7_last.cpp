@@ -108,10 +108,8 @@ Sample Output 2:
 */
 
 #include <iostream>
-#include <vector>
 #include <string>
 #include <sstream> //for istringstream
-#include <map>
 #include <set>
 
 
@@ -136,63 +134,55 @@ int main()
 		getline(cin, sTemp);
 
 		//making dictionaries
-			//make original dictinary with Capitals
+			//make original dictionary with Capitals
 			dictionaryCapitals.insert(sTemp);
-			//make dictinary without Capitals
+			//make dictionary without Capitals
 			for (int i = 0; i < sTemp.length(); i++) sTemp[i] = tolower(sTemp[i]);
 			dictinaryNoCapitals.insert(sTemp);				
 	}
 
 	//save input string for checking
-
-		string sTemp;
-		string wordForCheck;
+	string sTemp;
+	string wordForCheck;
 		
-		getline(cin, sTemp);
+	getline(cin, sTemp);
 
-		//проверить, что строка не пустая
-		if (sTemp.empty()) {
-			cout << 0;
-			return 0;
-		}
-
-		//making set for checking
-		istringstream is(sTemp); //create object is for the input stream working (>>)
-		while (is >> wordForCheck) {
-			stringForCheck.insert(wordForCheck);
-		}
-
-		//check the number of Capital letters in the each word
-		int capitalLetterCnt = 0;
-		for (auto now : stringForCheck) {
-			for (auto c : now) {
-				if (c >= 'A' && c <= 'Z') capitalLetterCnt++;
-			}
-			if (capitalLetterCnt != 1) cnt++;
-			capitalLetterCnt = 0;
-		}
-
-	//print dict
-	for (auto& now : stringForCheck) cout << now << " "; cout << "\n";
-	cout << cnt;
-	//for (auto& now : dictinaryNoCapitals) cout << now << " ";
-
-
-//Delete this block
-/**
-	//print result
-	cout << map_latin.size() << endl; //number of latin words
-	for (auto& now_latinword : s_latinword) { //go thru set for a right printing order
-		cout << now_latinword << " - ";
-		//print second value of the map
-		int i = 0; //for finding the laat value of the map_latin
-		for (auto& now_engword : map_latin[now_latinword]) { //go thru the map.first
-			if (i != map_latin[now_latinword].size() - 1) cout << now_engword << ", "; //print ", " if it's not a last value
-			else cout << now_engword;
-			i++;			
-		}
-		cout << "\n";
+	//проверить, что строка не пустая
+	if (sTemp.empty()) {
+		cout << 0;
+		return 0;
 	}
-*/	
-	return 0;
+
+	//making set for checking
+	istringstream is(sTemp); //create object is for the input stream working (>>)
+	while (is >> wordForCheck) {
+		stringForCheck.insert(wordForCheck);
+	}
+
+	//start checking
+
+	int capitalLetterCnt = 0;
+	for (auto now : stringForCheck) {
+		for (auto c : now) {
+			//check the number of Capital letters in the each word
+			if (c >= 'A' && c <= 'Z') capitalLetterCnt++;
+		}
+		//each word must have one capital letter 
+		if (capitalLetterCnt != 1) cnt++;
+		else {
+			//find words in the original dictionary (with Capitals)			
+			//if there is not the word, than find it in the dict. wthout capitals
+				if (dictionaryCapitals.find(now) == dictionaryCapitals.end()) {
+					//convert Capitals to lower for finding the word in the second dict.
+					for (int i = 0; i < now.length(); i++) now[i] = tolower(now[i]);
+					if (dictinaryNoCapitals.find(now) != dictinaryNoCapitals.end()) cnt++;
+				}			
+		}
+		
+		capitalLetterCnt = 0; //reset capital letters counter
+	}
+
+	//print result
+	cout << cnt;
+	return 0;		
 }

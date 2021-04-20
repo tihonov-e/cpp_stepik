@@ -7,14 +7,12 @@
 #include <utility>
 
 using namespace std;
-struct man {
-    int hight;
-    string name;
-};
 
-bool cmp(man a, man b) {
-    return a.hight < b.hight;
+void print(vector<int> a) {
+    for (auto now : a) cout << now << " ";
+    cout << "\n";
 }
+
 
 /**
 Перестановки
@@ -35,8 +33,18 @@ int main()
 {
     int n = 0;
     cin >> n;
-    vector <man> a(n);
+    vector <int> a(n);
+
+    for (int i = 1; i <= n; i++) {
+        a[i - 1] = i;
+    }
+    print(a); cout << "\n";
+
+    while (next_permutation(a.begin(), a.end())) print(a);
+
+    return 0;
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
